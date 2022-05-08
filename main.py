@@ -37,10 +37,7 @@ class MyWindow(QMainWindow):
         #self.bitlabels = ['zahl8', 'zahl4', 'zahl2', 'zahl1']
         #for self.bitlabel in self.bitlabels:
         #    hlayoutLabels.addWidget(self.bitlabel)
-        self.zahl8 = QLabel('8', self)
-        self.zahl4 = QLabel('4', self)
-        self.zahl2 = QLabel('2', self)
-        self.zahl1 = QLabel('1', self)
+        self.zahlen = [QLabel('8', self), QLabel('4', self), QLabel('2', self), QLabel('1', self)]
         hlayoutLabels.addWidget(self.zahl8)
         hlayoutLabels.addWidget(self.zahl4)
         hlayoutLabels.addWidget(self.zahl2)
@@ -63,35 +60,16 @@ class MyWindow(QMainWindow):
     
     def checker(self):
         labelsValue = (self.binSlider.value())
-        if(labelsValue >= 8):
-            self.zahl8.setStyleSheet("background-color: rgb(180, 0, 0)")
-            labelsValue = labelsValue - 8
-            led8 = 1
-        else:
-            self.zahl8.setStyleSheet("background-color: rgb(0, 180, 0)")
-            led8 = 0
-        if(labelsValue >= 4):
-            self.zahl4.setStyleSheet("background-color: rgb(180, 0, 0)")
-            labelsValue = labelsValue - 4
-            led4 = 1
-        else:
-            self.zahl4.setStyleSheet("background-color: rgb(0, 180, 0)")
-            led4 = 0
-        if(labelsValue >= 2):
-            self.zahl2.setStyleSheet("background-color: rgb(180, 0, 0)")
-            labelsValue = labelsValue - 2
-            led2 = 1
-        else:
-            self.zahl2.setStyleSheet("background-color: rgb(0, 180, 0)")
-            led2 = 0
-        if(labelsValue >= 1):
-            self.zahl1.setStyleSheet("background-color: rgb(180, 0, 0)")
-            labelsValue = labelsValue - 1
-            led1 = 1
-        else:
-            self.zahl1.setStyleSheet("background-color: rgb(0, 180, 0)")
-            led1 = 0
-        leds.value = (led8, led4, led2, led1)
+        on = "background-color: rgb(0, 180, 0)"
+        off = "background-color: rgb(180, 0, 0)"
+        for i in range(4):
+            div = 2 ** (3 - i)
+            if(labelsValue % div == 1):
+                self.zahlen[i].setStyleSheet(off)
+                leds[i].off()
+            else:
+                self.zahlen[i].setStyleSheet(on)
+                leds[i].on()
 
 
 app = QtWidgets.QApplication([])
