@@ -38,10 +38,8 @@ class MyWindow(QMainWindow):
         #for self.bitlabel in self.bitlabels:
         #    hlayoutLabels.addWidget(self.bitlabel)
         self.zahlen = [QLabel('8', self), QLabel('4', self), QLabel('2', self), QLabel('1', self)]
-        hlayoutLabels.addWidget(self.zahl8)
-        hlayoutLabels.addWidget(self.zahl4)
-        hlayoutLabels.addWidget(self.zahl2)
-        hlayoutLabels.addWidget(self.zahl1)
+        for x in self.zahlen:
+            hlayoutLabels.addWidget(x)
 
         vlayout = QVBoxLayout()
         vlayout.addLayout(hlayoutSlider)
@@ -60,16 +58,17 @@ class MyWindow(QMainWindow):
     
     def checker(self):
         labelsValue = (self.binSlider.value())
+        print("Start: " + str(labelsValue))
         on = "background-color: rgb(0, 180, 0)"
         off = "background-color: rgb(180, 0, 0)"
         for i in range(4):
             div = 2 ** (3 - i)
-            if(labelsValue % div == 1):
-                self.zahlen[i].setStyleSheet(off)
-                leds[i].off()
-            else:
-                self.zahlen[i].setStyleSheet(on)
-                leds[i].on()
+            self.zahlen[i].setStyleSheet(off)
+            if labelsValue >= div:
+                    self.zahlen[i].setStyleSheet(on)
+                    leds[i].on()
+                    labelsValue -= div
+        print("________")
 
 
 app = QtWidgets.QApplication([])
